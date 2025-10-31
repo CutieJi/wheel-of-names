@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheel of Names Recon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1><i class="fas fa-redo"></i>Wheel of Names</h1>
+            <p>A modern wheel of names/random picker</p>
+        </header>
+
+        <main class="main-content">
+            <div class="wheel-container">
+                <div class="wheel-wrapper">
+                    <canvas id="wheelCanvas" width="500" height="500"></canvas>
+                    <div class="wheel-center">
+                        <div class="spin-button" id="spinButton">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="pointer"></div>
+                </div>
+            </div>
+
+            <div class="controls-container">
+                <div class="input-section">
+                    <div class="input-group">
+                        <input type="text" id="nameInput" placeholder="Add a name or item">
+                        <button id="addButton"><i class="fas fa-plus"></i> Add</button>
+                    </div>
+                    <div class="input-options">
+                        <button id="pasteButton"><i class="fas fa-paste"></i> Paste from clipboard</button>
+                        <button id="sampleButton"><i class="fas fa-magic"></i> Load sample</button>
+                        <button id="clearButton"><i class="fas fa-trash"></i> Clear all</button>
+                    </div>
+                </div>
+
+                <div class="names-list-container">
+                    <h3>Items to spin (<span id="itemCount">0</span>)</h3>
+                    <div class="names-list" id="namesList"></div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Settings</h3>
+                    <div class="settings-grid">
+                        <div class="setting">
+                            <label for="spinTime">Spin duration (seconds)</label>
+                            <input type="range" id="spinTime" min="3" max="15" value="8" step="1">
+                            <span id="spinTimeValue">8</span>
+                        </div>
+                        <div class="setting">
+                            <label for="wheelTheme">Wheel theme</label>
+                            <select id="wheelTheme">
+                                <option value="vibrant">Vibrant Colors</option>
+                                <option value="pastel">Pastel Colors</option>
+                                <option value="monochrome">Monochrome</option>
+                                <option value="rainbow">Rainbow</option>
+                            </select>
+                        </div>
+                        <div class="setting">
+                            <label for="soundToggle">Sound effects</label>
+                            <label class="switch">
+                                <input type="checkbox" id="soundToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="results-sidebar" id="resultsSidebar">
+            <div class="sidebar-header">
+                <h3>Results History</h3>
+                <button id="closeSidebar"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="results-list" id="resultsList"></div>
+            <div class="sidebar-footer">
+                <button id="exportResults"><i class="fas fa-download"></i> Export</button>
+                <button id="clearResults"><i class="fas fa-trash"></i> Clear</button>
+            </div>
+        </div>
+
+        <div class="result-modal" id="resultModal">
+            <div class="modal-content">
+                <h2>And the winner is...</h2>
+                <div class="winner-name" id="winnerName"></div>
+                <div class="modal-actions">
+                    <button id="spinAgain">Spin Again</button>
+                    <button id="closeModal">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <button class="results-toggle" id="resultsToggle">
+            <i class="fas fa-history"></i>
+            <span class="results-badge" id="resultsBadge">0</span>
+        </button>
+
+        <footer class="app-footer">
+            <p>© 2025 Rosh - A modern Wheel of Names</p>
+        </footer>
+    </div>
+
+    <audio id="spinSound" src="https://assets.mixkit.co/sfx/preview/mixkit-game-show-spin-wheel-1926.mp3"></audio>
+    <audio id="winSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+    <audio id="tickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3"></audio>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
