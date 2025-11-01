@@ -20,7 +20,8 @@
             <p>A modern online/offline wheel of names/random picker</p>
         </header>
 
-        <div id="offlineBanner" style="display:none; position:fixed; top:0; left:0; width:100%; background:#fd79a8; color:white; text-align:center; padding:10px; z-index:1000;">
+        <div id="offlineBanner"
+            style="display:none; position:fixed; top:0; left:0; width:100%; background:#fd79a8; color:white; text-align:center; padding:10px; z-index:1000;">
             You are offline.
         </div>
 
@@ -126,9 +127,17 @@
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
-                .then(() => console.log('Service Worker Registered'))
-                .catch(err => console.error('SW registration failed:', err));
+                .then(() => console.log('Service Worker Registered'));
         }
+
+        // Offline detection
+        const offlineBanner = document.getElementById('offlineBanner');
+        function updateOnlineStatus() {
+            offlineBanner.style.display = navigator.onLine ? 'none' : 'block';
+        }
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
     </script>
 
 </body>
