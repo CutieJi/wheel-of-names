@@ -499,3 +499,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the app
     init();
 });
+
+const offlineBanner = document.getElementById('offlineBanner');
+function updateOnlineStatus() {
+    offlineBanner.style.display = navigator.onLine ? 'none' : 'block';
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+updateOnlineStatus();

@@ -1,6 +1,7 @@
-// Increment this version every time you update your files
-const CACHE_NAME = 'wheel-app-cache-v3';
+const CACHE_NAME = 'wheel-app-cache-v2';
 const FILES_TO_CACHE = [
+    '/',
+    '/index.html',
     '/style.css',
     '/script.js',
     '/manifest.json',
@@ -8,29 +9,21 @@ const FILES_TO_CACHE = [
     '/icon-512.png'
 ];
 
-// Install: cache static assets
+// Install: cache all files
 self.addEventListener('install', event => {
-    console.log('[ServiceWorker] Install');
     event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => {
-            console.log('[ServiceWorker] Caching app shell');
-            return cache.addAll(FILES_TO_CACHE);
-        })
+        caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
     );
     self.skipWaiting();
 });
 
 // Activate: remove old caches
 self.addEventListener('activate', event => {
-    console.log('[ServiceWorker] Activate');
     event.waitUntil(
-        caches.keys().then(cacheNames => {
+        caches.keys().then(keys => {
             return Promise.all(
-                cacheNames.map(key => {
-                    if (key !== CACHE_NAME) {
-                        console.log('[ServiceWorker] Removing old cache', key);
-                        return caches.delete(key);
-                    }
+                keys.map(key => {
+                    if (key !== CACHE_NAME) return caches.delete(key);
                 })
             );
         })
@@ -38,38 +31,26 @@ self.addEventListener('activate', event => {
     self.clients.claim();
 });
 
-// Fetch
+// Fetch: Offline-first strategy
 self.addEventListener('fetch', event => {
-    // Network-first for HTML pages
-    if (event.request.mode === 'navigate') {
-        event.respondWith(
-            fetch(event.request)
+    event.respondWith(
+        caches.match(event.request).then(cachedResponse => {
+            if (cachedResponse) return cachedResponse;
+
+            return fetch(event.request)
                 .then(response => {
+                    // Cache new requests
                     return caches.open(CACHE_NAME).then(cache => {
                         cache.put(event.request, response.clone());
                         return response;
                     });
                 })
-                .catch(() => caches.match('/index.html'))
-        );
-        return;
-    }
-
-    // Cache-first for other assets (CSS, JS, images)
-    event.respondWith(
-        caches.match(event.request).then(cachedResponse => {
-            return cachedResponse || fetch(event.request).then(response => {
-                // Optionally cache new requests dynamically
-                return caches.open(CACHE_NAME).then(cache => {
-                    cache.put(event.request, response.clone());
-                    return response;
+                .catch(() => {
+                    // Optional: fallback page if offline and resource not cached
+                    if (event.request.mode === 'navigate') {
+                        return caches.match('/index.html');
+                    }
                 });
-            });
-        }).catch(() => {
-            // Optional: fallback image for broken images
-            if (event.request.destination === 'image') {
-                return new Response('', { status: 404, statusText: 'Image not found' });
-            }
         })
     );
 });
