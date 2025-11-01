@@ -10,6 +10,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#6c5ce7">
 </head>
 
 <body>
@@ -98,7 +99,7 @@
                 <div class="modal-actions">
                     <button id="spinAgain">Spin Again</button>
                     <button id="closeModal">Close</button>
-                </div> 
+                </div>
             </div>
         </div>
 
@@ -120,7 +121,8 @@
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
-                .then(() => console.log('Service Worker Registered'));
+                .then(() => console.log('Service Worker Registered'))
+                .catch(err => console.error('SW registration failed:', err));
         }
     </script>
 
