@@ -632,6 +632,143 @@ input:checked + .slider:before {
     .results-sidebar.open {
         right: 0;
     }
+}/* General responsive layout */
+@media (max-width: 1024px) {
+    .main-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .wheel-container,
+    .controls-container {
+        width: 90%;
+        max-width: 500px;
+    }
+
+    .wheel-wrapper {
+        padding-bottom: 100%;
+    }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    .wheel-container {
+        width: 80%;
+    }
+
+    .controls-container {
+        width: 90%;
+    }
+
+    .wheel-center {
+        width: 60px;
+        height: 60px;
+    }
+
+    .spin-button {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+
+    .pointer {
+        width: 25px;
+        height: 35px;
+    }
+
+    .names-list {
+        max-height: 150px;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .winner-name {
+        font-size: 1.5rem;
+        padding: 15px;
+    }
+
+    .results-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+
+    .results-badge {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+    }
+
+    /* Sidebar adjustments */
+    .results-sidebar {
+        width: 100%;
+        right: -100%;
+    }
+
+    .results-sidebar.open {
+        right: 0;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .main-content {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .wheel-container,
+    .controls-container {
+        width: 100%;
+    }
+
+    .wheel-wrapper {
+        padding-bottom: 90%;
+    }
+
+    .wheel-center {
+        width: 50px;
+        height: 50px;
+    }
+
+    .spin-button {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
+    }
+
+    .pointer {
+        width: 20px;
+        height: 30px;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .winner-name {
+        font-size: 1.3rem;
+        padding: 10px;
+    }
+
+    .results-toggle {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+        bottom: 15px;
+        right: 15px;
+    }
+
+    /* Stack controls below wheel */
+    .controls-container {
+        margin-top: 15px;
+    }
 }
 
 /* Animations */
