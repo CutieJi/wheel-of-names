@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wheel-app-cache-v2';
+const CACHE_NAME = 'wheel-app-cache-v3';
 const FILES_TO_CACHE = [
     '/',
     '/index.html',
@@ -17,7 +17,7 @@ self.addEventListener('install', event => {
     self.skipWaiting();
 });
 
-// Activate: remove old caches
+// Activate: delete old caches
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(keys => {
@@ -31,7 +31,7 @@ self.addEventListener('activate', event => {
     self.clients.claim();
 });
 
-// Fetch: Offline-first strategy
+// Fetch: offline-first
 self.addEventListener('fetch', event => {
     event.respondWith(
         caches.match(event.request).then(cachedResponse => {
@@ -39,14 +39,13 @@ self.addEventListener('fetch', event => {
 
             return fetch(event.request)
                 .then(response => {
-                    // Cache new requests
                     return caches.open(CACHE_NAME).then(cache => {
                         cache.put(event.request, response.clone());
                         return response;
                     });
                 })
                 .catch(() => {
-                    // Optional: fallback page if offline and resource not cached
+                    // If offline and request is navigation, serve index.html
                     if (event.request.mode === 'navigate') {
                         return caches.match('/index.html');
                     }
